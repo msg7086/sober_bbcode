@@ -42,4 +42,42 @@ RSpec.describe "Custom Tags" do
       expect(SoberBBCode.render(input)).to eq(expected)
     end
   end
+
+  describe "size tag" do
+    it "renders em units" do
+      input = "[size=2.5]em text[/size]"
+      expected = "<span style=\"font-size: 2.5em;\">em text</span>"
+      expect(SoberBBCode.render(input)).to eq(expected)
+    end
+
+    it "renders pt units" do
+      input = "[size=20]pt text[/size]"
+      expected = "<span style=\"font-size: 20pt;\">pt text</span>"
+      expect(SoberBBCode.render(input)).to eq(expected)
+    end
+
+    it "renders percentage units" do
+      input = "[size=150]percentage text[/size]"
+      expected = "<span style=\"font-size: 150%;\">percentage text</span>"
+      expect(SoberBBCode.render(input)).to eq(expected)
+    end
+
+    it "defaults to 2em for out-of-range positive values" do
+      input = "[size=4]default text[/size]"
+      expected = "<span style=\"font-size: 2em;\">default text</span>"
+      expect(SoberBBCode.render(input)).to eq(expected)
+    end
+
+    it "is invalid for zero" do
+      input = "[size=0]invalid text[/size]"
+      expected = "<span>invalid text</span>"
+      expect(SoberBBCode.render(input)).to eq(expected)
+    end
+
+    it "is invalid for negative values" do
+      input = "[size=-1]invalid text[/size]"
+      expected = "<span>invalid text</span>"
+      expect(SoberBBCode.render(input)).to eq(expected)
+    end
+  end
 end

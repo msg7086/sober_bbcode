@@ -104,6 +104,11 @@ module SoberBBCode
         return " style=\"text-align: #{CGI.escapeHTML(default_val)};\""
       end
 
+      # Special handling for size tag
+      if tag_def.name == 'size'
+        return handle_size_attribute(default_val)
+      end
+
       # Map to the first allowed attribute defined in configuration
       target_attr = tag_def.attributes.first
       return "" unless target_attr
@@ -115,6 +120,25 @@ module SoberBBCode
       end
 
       " #{target_attr}=\"#{CGI.escapeHTML(default_val)}\""
+    end
+
+    def handle_size_attribute(value)
+      size = value.to_f
+      return "" if size <= 0
+
+      formatted_size = (size % 1).zero? ? size.to_i : size
+
+      font_size = if size >= 1 && size <= 3
+                    "#{formatted_size}em"
+                  elsif size >= 10 && size <= 30
+                    "#{formatted_size}pt"
+                  elsif size >= 50 && size <= 300
+                    "#{formatted_size}%"
+                  else
+                    "2em"
+                  end
+      
+      " style=\"font-size: #{font_size};\""
     end
   end
 end

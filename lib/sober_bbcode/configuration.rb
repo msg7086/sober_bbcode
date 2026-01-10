@@ -42,6 +42,7 @@ module SoberBBCode
       add_tag :i, html_tag: 'em'
       add_tag :u, html_tag: 'u'
       add_tag :s, html_tag: 'del'
+      add_tag :size, html_tag: 'span', attributes: [:style]
 
       # Links and Images
       add_tag :url, html_tag: 'a', attributes: [:href]
