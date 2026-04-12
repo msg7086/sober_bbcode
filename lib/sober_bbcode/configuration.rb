@@ -57,6 +57,7 @@ module SoberBBCode
       add_tag :ul, html_tag: 'ul', priority: 1
       add_tag :ol, html_tag: 'ol', priority: 1
       add_tag :li, html_tag: 'li', priority: 0
+      add_tag :list, html_tag: 'ul', priority: 1
 
       # Headings
       add_tag :h1, html_tag: 'h1', priority: 1

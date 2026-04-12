@@ -35,6 +35,8 @@ module SoberBBCode
           else
             content
           end
+        elsif parent_tag_name == "list"
+          content.gsub("[\*]", "<li>").gsub("\n", "</li>").strip
         else
           # Convert newlines to <br> for regular text
           content.gsub("\n", "<br>")
@@ -49,7 +51,7 @@ module SoberBBCode
       return "" unless tag_def # Should not happen given Parser logic
 
       # Special handling for orphan list items
-      if node.name == 'li' && !['ul', 'ol'].include?(parent_tag_name)
+      if node.name == 'li' && !['ul', 'ol', 'list'].include?(parent_tag_name)
         # Render children only, stripping the <li> tag
         return node.children.map { |child| visit(child, node.name) }.join
       end

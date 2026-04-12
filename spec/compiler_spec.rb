@@ -44,6 +44,16 @@ RSpec.describe SoberBBCode::Compiler do
         expect(render(input)).to eq("<ul><li>Item 1</li><li>Item 2</li></ul>")
       end
 
+      it "renders unordered lists 2" do
+        input = "[list][li]Item 1[/li][li]Item 2[/li][/list]"
+        expect(render(input)).to eq("<ul><li>Item 1</li><li>Item 2</li></ul>")
+      end
+
+      it "renders unordered lists 3" do
+        input = "[list][*]Item 1\n[*]Item 2\n[/list]"
+        expect(render(input)).to eq("<ul><li>Item 1</li><li>Item 2</li></ul>")
+      end
+
       it "renders ordered lists" do
         input = "[ol][li]Item 1[/li][li]Item 2[/li][/ol]"
         expect(render(input)).to eq("<ol><li>Item 1</li><li>Item 2</li></ol>")
