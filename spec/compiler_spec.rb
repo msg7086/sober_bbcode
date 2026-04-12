@@ -65,7 +65,7 @@ RSpec.describe SoberBBCode::Compiler do
 
       it "renders quote containing table" do
         input = "[quote][table][tr][td]Cell[/td][/tr][/table][/quote]"
-        expected = "<blockquote><table><tr><td>Cell</td></tr></table></blockquote>"
+        expected = "<blockquote><table><tbody><tr><td>Cell</td></tr></tbody></table></blockquote>"
         expect(render(input)).to eq(expected)
       end
 
