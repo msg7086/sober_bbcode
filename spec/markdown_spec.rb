@@ -45,4 +45,16 @@ RSpec.describe "Markdown Support" do
     input = "[markdown]content[/MARKDOWN]"
     expect(SoberBBCode.render(input)).to include("content")
   end
+
+  it "preserves newlines in markdown content as <br>" do
+    input = <<~BBCODE
+      [markdown]
+      - line 1
+      - line 2
+      [/markdown]
+    BBCODE
+    output = SoberBBCode.render(input)
+    # We expect the newline between line 1 and line 2 to be converted to <br>
+    expect(output).to include("- line 1<br>- line 2")
+  end
 end

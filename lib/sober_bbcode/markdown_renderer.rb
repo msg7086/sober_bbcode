@@ -12,7 +12,7 @@ module SoberBBCode
       end
 
       # 3. Process inline elements (Links and Images) across the whole content
-      result = lines.join("\n")
+      result = lines.join("<br>")
       process_inline(result)
     end
 
