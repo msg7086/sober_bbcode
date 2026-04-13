@@ -42,7 +42,12 @@ module SoberBBCode
         return
       end
 
-      # Check nesting restrictions (if any) - Phase 4 refinement, but basic checks here
+      # Check for auto-closing tags (like [*] inside another [*])
+      if tag_def.auto_close && current_node.is_a?(Nodes::Tag) && current_node.name == token.content
+        pop_stack
+      end
+
+      # Check nesting restrictions (if any)
       # For now, just create the node
       node = Nodes::Tag.new(token.content, parse_attributes(token.attributes))
 

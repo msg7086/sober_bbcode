@@ -23,17 +23,12 @@ module SoberBBCode
         # Handle newlines based on context
         if ['code', 'pre'].include?(parent_tag_name)
           content
-        elsif ['ul', 'ol', 'table', 'tr', 'td'].include?(parent_tag_name)
-          # In lists, we typically ignore pure whitespace between items
-          # But if it's mixed content, we might keep it.
-          # For now, let's just strip leading/trailing whitespace if it's purely whitespace?
-          # Or, if it's just a newline, ignore it?
-          # Standard HTML lists ignore whitespace between <li>.
-          # If the text node is purely whitespace, ignore it.
+        elsif ['ul', 'ol', 'table', 'tr', 'td', 'list', '*'].include?(parent_tag_name)
+          # In lists and tables, we typically ignore newlines between items
           if content.strip.empty?
             ""
           else
-            content
+            content.gsub("\n", "")
           end
         else
           # Convert newlines to <br> for regular text
@@ -63,6 +58,10 @@ module SoberBBCode
         return @config.markdown_renderer.call(raw_content)
       end
 
+      if node.name == 'list'
+        return render_list(node)
+      end
+
       html_name = tag_def.html_tag
       attributes_str = render_attributes(node, tag_def)
 
@@ -77,6 +76,19 @@ module SoberBBCode
         end
         "<#{html_name}#{attributes_str}>#{children_html}</#{html_name}>"
       end
+    end
+
+    def render_list(node)
+      type = node.attributes[:default]
+      html_tag = type ? 'ol' : 'ul'
+      
+      attr_str = ""
+      if type && ['1', 'a', 'A', 'i', 'I'].include?(type)
+        attr_str = " type=\"#{type}\""
+      end
+
+      children_html = node.children.map { |child| visit(child, node.name) }.join
+      "<#{html_tag}#{attr_str}>#{children_html}</#{html_tag}>"
     end
 
     def render_image(node)

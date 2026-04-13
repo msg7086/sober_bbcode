@@ -13,6 +13,7 @@ module SoberBBCode
       :attributes,
       :allow_nesting,
       :raw,
+      :auto_close,
       keyword_init: true
     )
 
@@ -33,7 +34,8 @@ module SoberBBCode
         html_void: false,
         attributes: [],
         allow_nesting: true,
-        raw: false
+        raw: false,
+        auto_close: false
       }
       @tags[name] = TagDefinition.new(default_options.merge(options))
     end
@@ -61,6 +63,8 @@ module SoberBBCode
       add_tag :ul, html_tag: 'ul', priority: 1
       add_tag :ol, html_tag: 'ol', priority: 1
       add_tag :li, html_tag: 'li', priority: 0
+      add_tag :list, html_tag: 'ul', priority: 1
+      add_tag :'*', html_tag: 'li', priority: 0, auto_close: true
 
       # Headings
       add_tag :h1, html_tag: 'h1', priority: 1
