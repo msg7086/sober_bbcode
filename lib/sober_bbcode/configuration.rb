@@ -1,6 +1,7 @@
 module SoberBBCode
   class Configuration
     attr_reader :tags
+    attr_accessor :markdown_renderer
 
     TagDefinition = Struct.new(
       :name,
@@ -11,11 +12,13 @@ module SoberBBCode
       :html_void,
       :attributes,
       :allow_nesting,
+      :raw,
       keyword_init: true
     )
 
     def initialize
       @tags = {}
+      @markdown_renderer = ->(text) { SoberBBCode::MarkdownRenderer.render(text) }
       add_default_tags
     end
 
@@ -29,7 +32,8 @@ module SoberBBCode
         void_if_attr_present: false,
         html_void: false,
         attributes: [],
-        allow_nesting: true
+        allow_nesting: true,
+        raw: false
       }
       @tags[name] = TagDefinition.new(default_options.merge(options))
     end
@@ -69,6 +73,9 @@ module SoberBBCode
 
       # Alignment
       add_tag :align, html_tag: 'div', priority: 1, attributes: [:style]
+
+      # Markdown
+      add_tag :markdown, raw: true, priority: 1
 
       # Tables
       add_tag :table, html_tag: 'table', priority: 1

@@ -1,5 +1,6 @@
 require_relative "sober_bbcode/version"
 require_relative "sober_bbcode/configuration"
+require_relative "sober_bbcode/markdown_renderer"
 require_relative "sober_bbcode/nodes"
 require_relative "sober_bbcode/tokenizer"
 require_relative "sober_bbcode/parser"

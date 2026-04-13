@@ -7,6 +7,7 @@ module SoberBBCode
     def initialize(input)
       @scanner = StringScanner.new(input.to_s)
       @tokens = []
+      @config = SoberBBCode.configuration
     end
 
     def tokenize
@@ -53,15 +54,20 @@ module SoberBBCode
 
     def scan_opening_tag(start_pos)
       if @scanner.scan(/([a-zA-Z][a-zA-Z0-9]*|\*)(?:=(.*?))?\]/)
-        tag_name = @scanner[1]
+        tag_name = @scanner[1].downcase
         attr_string = @scanner[2]
         
         @tokens << Token.new(
           type: :open_tag,
-          content: tag_name.downcase,
+          content: tag_name,
           attributes: attr_string,
           position: start_pos
         )
+
+        tag_def = @config.tags[tag_name]
+        if tag_def && tag_def.raw
+          scan_raw_content(tag_name)
+        end
       else
         # Not a valid opening tag, backtrack and treat '[' as text
         # But since we didn't consume anything extra yet (only checked),
@@ -71,6 +77,31 @@ module SoberBBCode
         # We need to be careful not to infinite loop.
         # Since we scanned `[` in the main loop, we just add it as text.
         add_text_token("[")
+      end
+    end
+
+    def scan_raw_content(tag_name)
+      closing_tag_pattern = /\[\/#{Regexp.escape(tag_name)}\]/i
+      
+      # scan_until returns everything up to and including the match, and advances pos
+      content_with_closing = @scanner.scan_until(closing_tag_pattern)
+      
+      if content_with_closing
+        # matched holds the actual closing tag string found
+        match_len = @scanner.matched.length
+        raw_text = content_with_closing[0...-match_len]
+        add_text_token(raw_text)
+        
+        @tokens << Token.new(
+          type: :close_tag,
+          content: tag_name,
+          position: @scanner.pos - match_len
+        )
+      else
+        # No closing tag, consume rest
+        raw_text = @scanner.rest
+        @scanner.terminate
+        add_text_token(raw_text) if raw_text && !raw_text.empty?
       end
     end
 

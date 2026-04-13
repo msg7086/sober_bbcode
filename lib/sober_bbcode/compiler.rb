@@ -58,6 +58,11 @@ module SoberBBCode
         return render_image(node)
       end
 
+      if node.name == 'markdown'
+        raw_content = node.children.map(&:content).join
+        return @config.markdown_renderer.call(raw_content)
+      end
+
       html_name = tag_def.html_tag
       attributes_str = render_attributes(node, tag_def)
 
