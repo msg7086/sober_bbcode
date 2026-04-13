@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = "A standalone, private Ruby Gem that parses BBCode into HTML."
   spec.description   = "SoberBBCode is a zero-dependency, self-contained BBCode parser with AST-based parsing and extensible configuration."
-  spec.homepage      = "https://github.com/example/sober_bbcode"
+  spec.homepage      = "https://github.com/msg7086/sober_bbcode"
   spec.license       = "MIT"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.6.0")
 
