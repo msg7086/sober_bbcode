@@ -45,6 +45,22 @@ RSpec.describe "Custom Tags" do
     end
   end
 
+  describe "sub tag" do
+    it "renders subscript text" do
+      input = "H[sub]2[/sub]O"
+      expected = "H<sub>2</sub>O"
+      expect(SoberBBCode.render(input)).to eq(expected)
+    end
+  end
+
+  describe "sup tag" do
+    it "renders superscript text" do
+      input = "x[sup]2[/sup]"
+      expected = "x<sup>2</sup>"
+      expect(SoberBBCode.render(input)).to eq(expected)
+    end
+  end
+
   describe "table tags" do
     it "renders a simple table" do
       input = "[table][tr][td]cell 1[/td][td]cell 2[/td][/tr][/table]"

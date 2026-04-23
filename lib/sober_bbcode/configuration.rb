@@ -48,6 +48,8 @@ module SoberBBCode
       add_tag :i, html_tag: 'em'
       add_tag :u, html_tag: 'u'
       add_tag :s, html_tag: 'del'
+      add_tag :sub, html_tag: 'sub'
+      add_tag :sup, html_tag: 'sup'
       add_tag :size, html_tag: 'span', attributes: [:style]
       add_tag :color, html_tag: 'span', attributes: [:style]
       add_tag :font, html_tag: 'span', attributes: [:style]
