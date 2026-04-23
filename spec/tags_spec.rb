@@ -13,12 +13,34 @@ RSpec.describe "Custom Tags" do
       expected = "<div style=\"text-align: left;\">left-aligned text</div>"
       expect(SoberBBCode.render(input)).to eq(expected)
     end
+
+    it "renders align=right" do
+      input = "[align=right]right-aligned text[/align]"
+      expected = "<div style=\"text-align: right;\">right-aligned text</div>"
+      expect(SoberBBCode.render(input)).to eq(expected)
+    end
+  end
+
+  describe "left tag" do
+    it "renders left tag with left alignment" do
+      input = "[left]left text[/left]"
+      expected = "<div style=\"text-align: left;\">left text</div>"
+      expect(SoberBBCode.render(input)).to eq(expected)
+    end
   end
 
   describe "center tag" do
     it "renders center tag" do
       input = "[center]centered text[/center]"
-      expected = "<div>centered text</div>"
+      expected = "<div style=\"text-align: center;\">centered text</div>"
+      expect(SoberBBCode.render(input)).to eq(expected)
+    end
+  end
+
+  describe "right tag" do
+    it "renders right tag with right alignment" do
+      input = "[right]right text[/right]"
+      expected = "<div style=\"text-align: right;\">right text</div>"
       expect(SoberBBCode.render(input)).to eq(expected)
     end
   end
@@ -77,6 +99,34 @@ RSpec.describe "Custom Tags" do
     it "is invalid for negative values" do
       input = "[size=-1]invalid text[/size]"
       expected = "<span>invalid text</span>"
+      expect(SoberBBCode.render(input)).to eq(expected)
+    end
+  end
+
+  describe "color tag" do
+    it "renders color style" do
+      input = "[color=red]colored text[/color]"
+      expected = "<span style=\"color: red;\">colored text</span>"
+      expect(SoberBBCode.render(input)).to eq(expected)
+    end
+
+    it "escapes color attribute value" do
+      input = "[color=<red>]safe[/color]"
+      expected = "<span style=\"color: &lt;red&gt;;\">safe</span>"
+      expect(SoberBBCode.render(input)).to eq(expected)
+    end
+  end
+
+  describe "font tag" do
+    it "renders font-family style" do
+      input = "[font=Times New Roman]font text[/font]"
+      expected = "<span style=\"font-family: Times New Roman;\">font text</span>"
+      expect(SoberBBCode.render(input)).to eq(expected)
+    end
+
+    it "escapes font attribute value" do
+      input = "[font=\"Open Sans\"]safe[/font]"
+      expected = "<span style=\"font-family: &quot;Open Sans&quot;;\">safe</span>"
       expect(SoberBBCode.render(input)).to eq(expected)
     end
   end

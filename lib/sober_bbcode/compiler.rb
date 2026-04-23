@@ -110,6 +110,11 @@ module SoberBBCode
     end
 
     def render_attributes(node, tag_def)
+      # Special handling for left/center/right tags without attributes
+      if %w[left center right].include?(tag_def.name)
+        return " style=\"text-align: #{tag_def.name};\""
+      end
+
       # Currently only supporting 'default' attribute from [tag=value]
       return "" if node.attributes.empty?
 
@@ -124,6 +129,16 @@ module SoberBBCode
       # Special handling for size tag
       if tag_def.name == 'size'
         return handle_size_attribute(default_val)
+      end
+
+      # Special handling for color tag
+      if tag_def.name == 'color'
+        return handle_color_attribute(default_val)
+      end
+
+      # Special handling for font tag
+      if tag_def.name == 'font'
+        return handle_font_attribute(default_val)
       end
 
       # Map to the first allowed attribute defined in configuration
@@ -156,6 +171,18 @@ module SoberBBCode
                   end
       
       " style=\"font-size: #{font_size};\""
+    end
+
+    def handle_color_attribute(value)
+      return "" if value.nil? || value.empty?
+
+      " style=\"color: #{CGI.escapeHTML(value)};\""
+    end
+
+    def handle_font_attribute(value)
+      return "" if value.nil? || value.empty?
+
+      " style=\"font-family: #{CGI.escapeHTML(value)};\""
     end
   end
 end

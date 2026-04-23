@@ -49,6 +49,8 @@ module SoberBBCode
       add_tag :u, html_tag: 'u'
       add_tag :s, html_tag: 'del'
       add_tag :size, html_tag: 'span', attributes: [:style]
+      add_tag :color, html_tag: 'span', attributes: [:style]
+      add_tag :font, html_tag: 'span', attributes: [:style]
 
       # Links and Images
       add_tag :url, html_tag: 'a', attributes: [:href]
@@ -58,6 +60,8 @@ module SoberBBCode
       add_tag :quote, html_tag: 'blockquote', priority: 1
       add_tag :code, html_tag: 'pre', priority: 1
       add_tag :center, html_tag: 'div', priority: 1 # Often styled with class or style
+      add_tag :left, html_tag: 'div', priority: 1
+      add_tag :right, html_tag: 'div', priority: 1
 
       # Lists
       add_tag :ul, html_tag: 'ul', priority: 1

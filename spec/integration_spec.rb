@@ -30,7 +30,7 @@ RSpec.describe SoberBBCode do
         [center]Centered Text[/center]
       BBCODE
 
-      expected = "<h1>My Article</h1><br><strong>Introduction</strong><br>This is a paragraph with <em>italic</em> and <u>underline</u>.<br><hr><br><h2>Features</h2><br><ul><li>Feature 1</li><li>Feature 2: <pre>code block</pre></li></ul><br><ol><li>Step 1</li><li>Step 2</li></ol><br><blockquote>This is a quote.</blockquote><br><div>Centered Text</div><br>"
+      expected = "<h1>My Article</h1><br><strong>Introduction</strong><br>This is a paragraph with <em>italic</em> and <u>underline</u>.<br><hr><br><h2>Features</h2><br><ul><li>Feature 1</li><li>Feature 2: <pre>code block</pre></li></ul><br><ol><li>Step 1</li><li>Step 2</li></ol><br><blockquote>This is a quote.</blockquote><br><div style=\"text-align: center;\">Centered Text</div><br>"
 
       # Remove newlines from input and expected to simplify matching
       # since the compiler might not preserve whitespace exactly as we typed in heredoc
